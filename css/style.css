@@ -1,0 +1,188 @@
+/* ==========================================================================
+   🌱 小夥伴的皮膚生態球 - MVP 視覺美編與動畫核心
+   ========================================================================== */
+
+/* 1. 基礎版面與皮克敏風療癒漸層背景 */
+body {
+    background: linear-gradient(135deg, #eef7f2 0%, #e0f2e9 100%);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* 2. 緩慢漂浮的生態背景粒子 */
+.particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    /* 🔴 關鍵修正一：確保背景粒子點擊穿透，絕不擋住按鈕 */
+    pointer-events: none; 
+    z-index: 0;
+    animation: floatUp 12s infinite linear;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(105vh) translateX(0) scale(0.8); opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { transform: translateY(-10vh) translateX(50px) scale(1.2); opacity: 0; }
+}
+
+/* 3. 核心精靈角色呼吸律動 */
+.char-breath {
+    animation: breath 3s infinite ease-in-out;
+    display: inline-block;
+}
+
+@keyframes breath {
+    0%, 100% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.05) translateY(-6px); }
+}
+
+/* 4. 主要操作卡片層級 */
+main {
+    position: relative;
+    z-index: 10; /* 🔴 關鍵修正二：提高卡片層級，優先接收所有觸控與點擊 */
+}
+
+/* 5. 頂部能量條脈衝微光 */
+.pulse-glow {
+    animation: goldGlow 0.6s ease-in-out;
+}
+
+@keyframes goldGlow {
+    0% { transform: scale(1); background-color: rgba(245, 158, 11, 0.2); border-color: rgba(245, 158, 11, 0.5); }
+    50% { transform: scale(1.08); background-color: rgba(245, 158, 11, 0.4); border-color: rgba(245, 158, 11, 0.8); }
+    100% { transform: scale(1); background-color: rgba(5, 150, 105, 0.1); border-color: rgba(167, 243, 208, 0.5); }
+}
+
+/* 6. 階段切換漸現效果 */
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   🎮 MVP 全新互動元件與按鈕自訂樣式 (抽離 JS 避免正則衝突)
+   ========================================================================== */
+
+/* 數位病灶畫布 */
+canvas {
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    background-color: #1e293b;
+    transition: transform 0.15s ease-out;
+}
+
+#symptom-canvas {
+    cursor: crosshair;
+}
+
+/* 所有按鈕的點擊回饋 */
+button {
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:active {
+    transform: scale(0.96) !important;
+}
+
+/* 獨立定義猜謎氣泡外觀（解決斜線造成 JS 崩潰的問題） */
+.quiz-bubble-btn {
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #374151;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.quiz-bubble-btn:hover {
+    background-color: #f0fdf4;
+    border-color: #bbf7d0;
+}
+
+/* 護理按鈕選中後的動態樣式 */
+.care-task-btn {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #4b5563;
+}
+
+.care-task-btn.active {
+    border-color: #059669;
+    background-color: #ecfdf5;
+    color: #047857;
+    animation: buttonSelectGlow 0.4s ease-out;
+}
+
+@keyframes buttonSelectGlow {
+    0% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.4); }
+    100% { box-shadow: 0 0 0 8px rgba(5, 150, 105, 0); }
+}
+
+/* 醫療警示卡呼吸邊框 */
+.border-pulse-danger {
+    animation: dangerPulse 2s infinite ease-in-out;
+}
+
+@keyframes dangerPulse {
+    0%, 100% { border-color: rgba(220, 38, 38, 0.3); box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.1); }
+    50% { border-color: rgba(220, 38, 38, 0.8); box-shadow: 0 0 8px 2px rgba(220, 38, 38, 0.2); }
+}
+
+/* 強制解決按鈕無法點擊的問題 */
+.care-task-btn {
+    padding: 0.75rem 1.25rem;
+    border: 2px solid #059669; /* 強制增加邊框，讓您看到按鈕 */
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #047857;
+    cursor: pointer;
+    pointer-events: auto !important; /* 關鍵：強制啟用滑鼠點擊 */
+    position: relative;
+    z-index: 9999 !important;      /* 關鍵：將按鈕提到最上層 */
+    margin: 5px;
+    transition: all 0.2s;
+}
+
+.care-task-btn:active {
+    transform: scale(0.95);
+    background-color: #ecfdf5;
+}
+
+/* 答錯後的按鈕禁用樣式 */
+.ident-btn-wrong {
+    opacity: 0.4 !important;
+    pointer-events: none !important;
+    text-decoration: line-through;
+    background-color: #fef2f2 !important;
+    border-color: #fecaca !important;
+    color: #b91c1c !important;
+}
+
+/* 正確答案高亮過渡 */
+.ident-btn-correct {
+    background-color: #d1fae5 !important;
+    border-color: #34d399 !important;
+    color: #065f46 !important;
+    transform: scale(1.05);
+}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>皮膚管理與判別之療癒系互動遊戲</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="text-gray-800 font-sans min-h-screen flex flex-col antialiased select-none p-4 justify-center items-center">
+
+    <div id="points-container" class="w-full max-w-md bg-white/80 backdrop-blur-md rounded-2xl p-3 mb-4 shadow-sm border border-emerald-100 flex justify-between items-center transition-all duration-300">
+        <div class="flex items-center gap-1.5">
+            <span class="text-base animate-pulse">🌱</span>
+            <span class="text-xs font-black text-emerald-950 tracking-wide">核心生態修護量能</span>
+        </div>
+        <div class="bg-emerald-600 px-3 py-1 rounded-xl text-white font-mono text-xs font-black shadow-inner shadow-emerald-700/30">
+            <span id="nav-points">0</span> <span class="text-[10px] text-emerald-100 font-bold">Mpts</span>
+        </div>
+    </div>
+
+    <div id="page-1" class="page-view w-full max-w-md bg-white/90 backdrop-blur-md rounded-[2.5rem] p-6 shadow-xl border border-emerald-100 text-center space-y-5">
+        <div class="text-5xl animate-bounce-short">🔮</div>
+        <h3 class="text-lg font-black text-emerald-950">皮膚健康生態球免責聲明</h3>
+        <p class="text-[11px] text-emerald-900/80 leading-relaxed text-left bg-emerald-50/50 p-3 rounded-xl border border-emerald-100/50">
+            本網頁為大專院校學生學術專題作業。內嵌之互動、數位病灶、日常護理建議均僅供學術展示與科普教育推廣使用，絕不具備任何實質醫療診斷、健檢或醫療指導功能。
+        </p>
+        
+        <div id="p1-env-box" class="hidden bg-white border border-amber-100 rounded-2xl p-3 text-left space-y-1 animate-fade-in">
+            <div class="text-[11px] text-gray-500 font-bold flex justify-between">
+                <span>📍 當前定位：<span id="env-city" class="text-emerald-700">偵測中...</span></span>
+                <span>🌡️ 生態氣溫：<span id="env-temp" class="text-emerald-700">--°C</span></span>
+            </div>
+            <div id="env-uv-tip" class="text-[10px] text-amber-600 font-medium">✨ 正在讀取大氣紫外線參數...</div>
+        </div>
+
+<button id="p1-action-btn" onclick="window.handlePage1Action()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl transition duration-200 text-xs tracking-wider shadow-md">
+    我已閱讀並同意接受
+</button>
+
+    <div id="page-2" class="page-view id-hidden w-full max-w-md bg-white/90 backdrop-blur-md rounded-[2.5rem] p-6 shadow-xl border border-emerald-100 text-center space-y-4">
+        <div class="flex justify-between items-center bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
+            <span class="text-[10px] bg-amber-500 text-white font-black px-2 py-0.5 rounded-md">STAGE 02</span>
+            <span class="text-[11px] font-bold text-gray-600">🧠 細胞心理劇場</span>
+        </div>
+        
+        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-4 min-h-[110px] max-h-[160px] overflow-y-auto flex items-center justify-center">
+            <p id="theater-dialogue-text" class="text-gray-700 text-xs italic leading-relaxed text-center animate-fade-in">
+                </p>
+        </div>
+
+        <div class="space-y-2">
+            <p class="text-[10px] text-gray-400 font-bold">🔍 請根據劇場心聲，點擊鑑定可能的皮膚狀態：</p>
+            <div id="identification-buttons" class="grid grid-cols-2 gap-2">
+                </div>
+        </div>
+
+        <div id="p2-error-tip" class="hidden bg-red-50 border border-red-200 text-red-700 text-[11px] font-bold py-2 rounded-xl animate-shake">
+            ❌ 鑑定偏差！細胞核心發出排斥反應，請重新觀察心聲。
+        </div>
+        <div id="p2-hint-area" class="hidden bg-emerald-50/60 border border-emerald-100 rounded-xl p-2.5 text-left animate-fade-in">
+            <p class="text-[10px] font-bold text-emerald-800">💡 觀察提示</p>
+            <p id="p2-hint-text" class="text-[10px] text-emerald-700 leading-relaxed mt-1"></p>
+        </div>
+    </div>
+
+    <div id="page-3" class="page-view id-hidden w-full max-w-md bg-white/90 backdrop-blur-md rounded-[2.5rem] p-6 shadow-xl border border-emerald-100 text-center space-y-4">
+        <div class="flex justify-between items-center bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
+            <span class="text-[10px] bg-emerald-600 text-white font-black px-2 py-0.5 rounded-md">STAGE 03</span>
+            <span class="text-[11px] font-bold text-emerald-800">💡 臨床病理科普</span>
+        </div>
+
+        <div class="text-left space-y-3 bg-white p-4 rounded-2xl border border-gray-100 shadow-inner">
+            <h4 id="p3-title" class="text-xs font-black text-gray-900 border-b pb-1.5"></h4>
+            <p id="p3-info" class="text-[11px] text-gray-600 leading-relaxed"></p>
+            <div class="bg-emerald-50/60 p-2.5 rounded-xl border border-emerald-100/50">
+                <p id="p3-care-tip" class="text-[10px] text-emerald-800 leading-relaxed"></p>
+            </div>
+        </div>
+
+        <button onclick="window.switchPage(4)" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl transition text-xs tracking-wider shadow-md">
+            🛠️ 進入病灶互動操作
+        </button>
+    </div>
+
+    <div id="page-4" class="page-view id-hidden w-full max-w-md bg-white/90 backdrop-blur-md rounded-[2.5rem] p-6 shadow-xl border border-emerald-100 text-center space-y-4">
+        <div class="flex justify-between items-center bg-gray-50 px-3 py-1.5 rounded-full border border-gray-100">
+            <span class="text-[10px] bg-blue-600 text-white font-black px-2 py-0.5 rounded-md">STAGE 04</span>
+            <span class="text-[11px] font-bold text-gray-600">🔬 顯微鏡病灶鎖定</span>
+        </div>
+
+        <div class="relative w-[280px] h-[280px] bg-gray-950 rounded-full overflow-hidden border-4 border-gray-800 shadow-2xl mx-auto flex items-center justify-center">
+            <canvas id="microscope-canvas" class="w-full h-full block cursor-crosshair"></canvas>
+            <div class="absolute inset-0 border border-emerald-500/10 rounded-full pointer-events-none ring-1 ring-emerald-500/20"></div>
+        </div>
+
+        <div class="bg-gray-50 border border-gray-200 rounded-xl py-2 px-3">
+            <p id="microscope-tip" class="text-[10px] text-gray-500 font-bold animate-pulse">
+                🔬 請根據外圈虛線提示，點擊鎖定病灶核心以解鎖分析儀
+            </p>
+        </div>
+
+        <div id="p4-task-box" class="hidden text-left bg-white border border-gray-100 rounded-2xl p-3 space-y-2 animate-fade-in">
+            <p class="text-[10px] text-gray-400 font-bold">➕ 請選取此細胞適合的日常防護策略：</p>
+            <div id="p4-care-tasks" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <button id="p4-next-btn" onclick="window.switchPage(5)" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3.5 rounded-xl transition text-xs tracking-wider shadow-md opacity-40 pointer-events-none" disabled>
+            ⚡ 完成互動，生成風險報告
+        </button>
+    </div>
+
+    <div id="page-5" class="page-view id-hidden w-full max-w-md bg-white/90 backdrop-blur-md rounded-[2.5rem] p-6 shadow-xl border border-emerald-100 text-center space-y-4">
+        <div class="text-4xl">📊</div>
+        <h3 class="text-base font-black text-gray-900">皮膚生態球終極決策防禦</h3>
+        
+        <div class="bg-red-500/5 border border-red-500/20 rounded-2xl p-4 text-left space-y-2">
+            <p id="p5-warning-text" class="text-[11px] text-red-700 font-black leading-relaxed"></p>
+            <p id="p5-danger-triggers" class="text-[10px] text-gray-500 leading-relaxed"></p>
+        </div>
+
+        <div id="decision-buttons-group" class="grid grid-cols-2 gap-3">
+            <button onclick="window.submitFinalDecision('home')" class="bg-white border-2 border-emerald-500 hover:bg-emerald-50 text-emerald-700 text-xs font-black py-3 rounded-xl transition">
+                🏡 居家定期觀察
+            </button>
+            <button onclick="window.submitFinalDecision('hospital')" class="bg-red-600 hover:bg-red-700 text-white text-xs font-black py-3 rounded-xl transition shadow-md">
+                🚨 尋求快速就醫
+            </button>
+        </div>
+
+        <div id="settlement-report" class="hidden bg-white border border-emerald-100 rounded-2xl p-4 text-left shadow-sm mt-2 transition-all duration-300">
+            </div>
+
+        <div id="next-cycle-group" class="hidden animate-fade-in">
+            <button onclick="window.restartWholeCycle()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl transition text-xs tracking-wider shadow-lg">
+                開啟下一輪生態進化 ➔
+            </button>
+        </div>
+    </div>
+
+    <style>
+        .id-hidden { display: none !important; }
+        .page-view { animation: pageFadeIn 0.35s ease-out; }
+        @keyframes pageFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+
+    <script src="js/skinData.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/interaction.js"></script>
+    <script src="js/aiAgent.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
