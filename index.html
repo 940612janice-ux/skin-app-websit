@@ -141,10 +141,28 @@
         @keyframes pageFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 
+    <!-- 療癒小夥伴 -->
+    <div id="companion" class="companion">
+        <div id="companion-body" class="companion-body">
+            <div class="companion-eye left-eye">
+                <div class="companion-pupil" id="left-pupil"></div>
+            </div>
+            <div class="companion-eye right-eye">
+                <div class="companion-pupil" id="right-pupil"></div>
+            </div>
+            <div class="companion-mouth"></div>
+        </div>
+        <div id="companion-bubble" class="companion-bubble hidden">
+            <span id="companion-text"></span>
+        </div>
+        <div id="companion-emoji" class="companion-emoji hidden"></div>
+    </div>
+
     <script src="js/skinData.js"></script>
     <script src="js/state.js"></script>
     <script src="js/interaction.js"></script>
     <script src="js/aiAgent.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/companion.js"></script>
 </body>
 </html>
