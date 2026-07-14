@@ -105,7 +105,9 @@ function startNewEcosystemGame() {
     wrongAttempts = 0;
     
     // 渲染第二關：心理劇場文字與選項按鈕
-    document.getElementById('theater-dialogue-text').innerText = currentIssueData.dialogue?.theater || "「感覺心靈深處有些異常波動……」";
+    const dialogueText = currentIssueData.dialogue?.theater || "「感覺心靈深處有些異常波動……」";
+    const emotionText = currentIssueData.emotion ? `\n\n💭 心理情緒感受：${currentIssueData.emotion}` : "";
+    document.getElementById('theater-dialogue-text').innerText = dialogueText + emotionText;
     const errorTip = document.getElementById('p2-error-tip');
     if (errorTip) errorTip.classList.add('hidden');
     const hintArea = document.getElementById('p2-hint-area');
