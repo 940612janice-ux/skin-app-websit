@@ -6,7 +6,7 @@ let selectedCareTasks = new Set(); // 記錄玩家選取的防護策略
 let isDisclaimerAccepted = false; // 是否已按下第一關的確認
 let wrongAttempts = 0;           // 第2關答錯次數
 const WRONG_HINTS = [
-    "再仔細聽聽細胞的心聲，注意描述中的關鍵症狀…",
+    "再仔細聽聽小夥伴的心聲，注意描述中的關鍵症狀…",
     "想想看：這個描述聽起來像良性還是惡性的狀況？",
     "線索提示：注意病灶的顏色、形狀、邊緣、以及變化的速度。"
 ];
@@ -58,7 +58,7 @@ window.handlePage1Action = async function() {
         if (envBox) envBox.classList.remove('hidden');
         
         const actionBtn = document.getElementById('p1-action-btn');
-        if (actionBtn) actionBtn.innerText = "🌱 進入皮膚護理生態球 ➔";
+        if (actionBtn) actionBtn.innerText = "🌱 進入皮膚護理小夥伴 ➔";
 
         // ✨ 觸發定位與天氣（現在是在點擊動作內，瀏覽器會彈出授權視窗）
         try {
@@ -98,14 +98,14 @@ function startNewEcosystemGame() {
     lastPickedKey = currentPickedKey;
     currentIssueData = window.skinData[currentPickedKey];
 
-    console.log(`🎰 本輪生態球核心鎖定為：${currentIssueData.name}`);
+    console.log(`🎰 本輪小夥伴核心鎖定為：${currentIssueData.name}`);
 
     // 重置全局資料與狀態
     selectedCareTasks.clear();
     wrongAttempts = 0;
     
     // 渲染第二關：心理劇場文字與選項按鈕
-    document.getElementById('theater-dialogue-text').innerText = currentIssueData.dialogue?.theater || "「感覺細胞內部有些異常波動……」";
+    document.getElementById('theater-dialogue-text').innerText = currentIssueData.dialogue?.theater || "「感覺心靈深處有些異常波動……」";
     const errorTip = document.getElementById('p2-error-tip');
     if (errorTip) errorTip.classList.add('hidden');
     const hintArea = document.getElementById('p2-hint-area');
@@ -149,7 +149,7 @@ function startNewEcosystemGame() {
     if (p4Btn) { p4Btn.disabled = true; p4Btn.classList.add('opacity-40', 'pointer-events-none'); }
     const p4TaskBox = document.getElementById('p4-task-box');
     if (p4TaskBox) p4TaskBox.classList.add('hidden');
-    document.getElementById('microscope-tip').innerText = "🔬 請點擊鎖定中央病灶的核心，以進行細胞阻斷鑑定";
+    document.getElementById('microscope-tip').innerText = "🔬 請點擊鎖定中央病灶的核心，以進行夥伴感應鑑定";
     document.getElementById('microscope-tip').className = "text-[10px] text-gray-500 font-bold animate-pulse";
 
     // 🚀 前往第二關
@@ -311,7 +311,7 @@ function handleCanvasCoreLocked() {
     drawCanvas();
     try { if (window.AudioEngine) window.AudioEngine.playBellSound(); } catch(e){}
 
-    document.getElementById('microscope-tip').innerText = "🎯 異常細胞防禦雷射已鎖定！請指派下方護理日常卡";
+    document.getElementById('microscope-tip').innerText = "🎯 小夥伴感應雷射已鎖定！請指派下方護理日常卡";
     document.getElementById('microscope-tip').className = "text-[10px] text-emerald-600 font-bold animate-none";
 
     const taskBox = document.getElementById('p4-task-box');
